@@ -25,6 +25,14 @@ body {
     z-index: 1; /* Behind the content */
 }
 
+@media (max-width: 767px) { /* Adjust breakpoint as needed (e.g., Bootstrap's sm/md breakpoint) */
+    .header-container {
+        height: 250px; /* Potentially smaller height on mobile */
+    }
+
+}
+
+
 .header-brand { /* New container for logo and title */
     position: absolute; /* Position relative to header-container */
     top: 50px;          /* Desired padding from the top */
