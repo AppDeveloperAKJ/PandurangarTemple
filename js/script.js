@@ -42,6 +42,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let allIncomeData = {};
     let allExpenseData = {};
 
+    const currentYearEl = document.getElementById('currentYear');
+    if (currentYearEl) {
+        currentYearEl.textContent = new Date().getFullYear();
+    }
+
     // --- Authentication & Page Mode ---
     function isAdminLoggedIn() {
         return sessionStorage.getItem('isAdminLoggedIn') === 'true';

@@ -199,3 +199,73 @@ body {
     border-top-right-radius: calc(0.25rem - 1px);
     */
 }
+
+footer {
+    background-color: #343a40; /* Dark background color - adjust as needed */
+    color: #f8f9fa;           /* Light text color */
+    padding: 20px 0;          /* Vertical padding */
+    font-size: 0.9rem;
+    margin-top: auto; /* Pushes footer to the bottom if main content is short (in a flex column layout) */
+    /* If not using flex for main page layout, this might not be needed or might need body/html height 100% */
+}
+
+footer .container {
+    max-width: 1140px; /* Or your site's standard container width */
+    margin: 0 auto;
+    padding: 0 15px; /* Horizontal padding consistent with Bootstrap .container */
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between; /* Key for left and right alignment */
+    align-items: center; /* Vertically align items if they have different heights */
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+}
+
+.footer-left p,
+.footer-right p {
+    margin-bottom: 5px; /* Space between paragraph lines within left/right sections */
+}
+.footer-left p:last-child,
+.footer-right p:last-child {
+    margin-bottom: 0;
+}
+
+
+.footer-left {
+    text-align: left;
+}
+
+.footer-right {
+    text-align: right;
+}
+
+.footer-right a {
+    color: #17a2b8; /* A slightly different color for the link - adjust as needed */
+    text-decoration: none;
+}
+
+.footer-right a:hover {
+    color: #138496;
+    text-decoration: underline;
+}
+
+/* Responsive adjustments for the footer */
+@media (max-width: 767px) {
+    .footer-content {
+        flex-direction: column; /* Stack left and right sections vertically */
+        align-items: center; /* Center items when stacked */
+        text-align: center; /* Center text for all children when stacked */
+    }
+
+    .footer-left,
+    .footer-right {
+        text-align: center; /* Ensure text is centered within these blocks too */
+        width: 100%;     /* Make them take full width when stacked */
+        margin-bottom: 15px; /* Space between stacked sections */
+    }
+
+    .footer-right {
+        margin-bottom: 0; /* No bottom margin for the last item */
+    }
+}
