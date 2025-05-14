@@ -1,0 +1,193 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa; /* Light gray background for content below header */
+    margin: 0; /* Remove default body margin */
+    padding: 0; /* Remove default body padding */
+}
+
+/* Remove the old navbar styling if it exists */
+/* .navbar { ... } */
+
+.header-container {
+    position: relative; /* To position content on top of the image */
+    width: 100%;
+    height: 350px; /* Or your desired height */
+    overflow: hidden; /* Ensures content doesn't spill if image is smaller */
+}
+
+.header-background-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cover ensures the image fills the container, cropping if necessary */
+    position: absolute; /* Take it out of normal flow */
+    top: 0;
+    left: 0;
+    z-index: 1; /* Behind the content */
+}
+
+.header-brand { /* New container for logo and title */
+    position: absolute; /* Position relative to header-container */
+    top: 50px;          /* Desired padding from the top */
+    left: 20px;         /* Desired padding from the left */
+    z-index: 2;         /* Above background image */
+    display: flex;      /* To align logo and title side-by-side */
+    align-items: center;/* Vertically align logo and title */
+}
+
+.header-logo {
+    width: 60px; /* Or your desired logo size */
+    height: 60px;
+    margin-right: 15px;
+    border-radius: 50%; /* Optional: if your logo is circular */
+    /* Add a border or shadow if needed for visibility */
+    /* border: 2px solid white; */
+}
+
+.header-title {
+    font-size: 1.5rem; /* Adjust as needed */
+    font-weight: bold;
+    color: white; /* Ensure title is visible, adjust based on your image */
+    text-decoration: none; /* Remove underline from link */
+    margin-right: auto; /* Pushes actions to the right */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.7); /* Add text shadow for readability */
+    line-height: 1.2; 
+    display: block;
+    max-width: 300px;
+}
+.header-title:hover {
+    color: #f0f0f0; /* Lighter color on hover */
+    text-decoration: none;
+}
+
+.header-actions {
+    position: absolute; /* Position relative to header-container */
+    bottom: 20px;         /* <<< CHANGED: Desired padding from the BOTTOM */
+    right: 20px;     
+    z-index: 2;         /* Above background image */
+    display: flex;      /* If you might have multiple action buttons later */
+    align-items: center;
+}
+
+.header-actions .btn {
+    margin-left: 10px; /* Space between buttons if both are visible */
+    /* Style buttons for better visibility on image if needed */
+    /* E.g., make them more opaque or add a border */
+    /* border-color: white; */
+    /* color: white; */
+}
+/* Make sure outline buttons are visible on dark images */
+.header-actions .btn.btn-outline-primary {
+    border-color: #fff;
+    color: #fff;
+    background-color: rgba(0, 123, 255, 0.3);
+}
+.header-actions .btn.btn-outline-primary:hover {
+    background-color: #fff;
+    color: #007bff;
+}
+.header-actions .btn.btn-outline-danger {
+    border-color: #ffc107; /* Example: warning color for danger logout */
+    color: #ffc107;
+}
+.header-actions .btn.btn-outline-danger:hover {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+
+/* Adjust main content container to account for the fixed header height if needed */
+/* If your header content might overlap, you might need to add padding-top to the next element */
+/* For example, if your .container.mt-4 isn't pushed down enough: */
+/*
+.container.mt-4 {
+    padding-top: 20px; // Additional padding if needed
+}
+*/
+
+
+/* --- Rest of your style.css --- */
+.card {
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 15px rgba(0,0,0,0.05);
+}
+/* ... etc ... */
+
+.about-content {
+    position: relative; /* This is ESSENTIAL for the ::before pseudo-element to be positioned correctly */
+    z-index: 0;         /* Establishes a stacking context. Text will be z-index: 1 or higher if needed. */
+    /* REMOVE: background-image, background-size, background-position, background-repeat, opacity FROM HERE */
+    /* Bootstrap's .card-body (if .about-content is also .card-body) already has padding. */
+}
+
+/* This pseudo-element will BECOME your background image layer */
+.about-content::before {
+    content: "";                     /* Necessary for the pseudo-element to render */
+    position: absolute;              /* Position it absolutely within .about-content */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;                       /* Make it cover the entire .about-content area */
+    background-image: url('../bannertwo.jpg'); /* YOUR IMAGE */
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    opacity: 0.3;                    /* OPACITY FOR THE IMAGE LAYER ONLY. Adjust 0.0 to 1.0 */
+    z-index: -1;                     /* CRUCIAL: Place this image layer BEHIND the actual text content
+                                        of .about-content. */
+}
+
+/* Styles for the text itself, which is a direct child of .about-content */
+.about-content p,
+.about-content h5,
+.about-content ul li {
+    color: #000000; /* BLACK TEXT - This will be fully opaque */
+    /* position: relative; */ /* Not strictly needed here because ::before is z-index: -1 */
+    /* z-index: 1;       */ /* Not strictly needed here */
+    /* Add text-shadow here if needed for more contrast */
+    /* text-shadow: 0px 0px 3px rgba(255, 255, 255, 0.7); */ /* Example: subtle white glow */
+}
+
+.card-elevation {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+        }
+        
+        /* Material Design inspired elevation */
+        .card-elevation-md {
+            box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 
+                        0 3px 1px -2px rgba(0,0,0,0.12), 
+                        0 1px 5px 0 rgba(0,0,0,0.2) !important;
+        }
+        
+        /* Larger elevation */
+        .card-elevation-lg {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3) !important;
+        }
+        
+        /* Hover effect */
+        .card-hover-elevation {
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .card-hover-elevation:hover {
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .custom-card-header {
+    background-color: #06555f; /* Example: A very light cyan/blue */
+    color: #f9fcfb;          /* Example: A dark teal text color for contrast */
+    /* You can also add other properties like: */
+    /* border-bottom: 1px solid #b2ebf2; */
+    /* font-weight: bold; */
+}
+
+/* If you also need to ensure the rounded corners for these custom headers (if the card has a border) */
+.card > .custom-card-header { /* More specific selector to ensure it applies after Bootstrap's base styles */
+    border-top-left-radius: var(--bs-card-inner-border-radius);
+    border-top-right-radius: var(--bs-card-inner-border-radius);
+    /* For BS4, you might use:
+    border-top-left-radius: calc(0.25rem - 1px);
+    border-top-right-radius: calc(0.25rem - 1px);
+    */
+}

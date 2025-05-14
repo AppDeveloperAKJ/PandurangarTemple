@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temple Fund - Admin Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Pandurangar Temple - Admin</a>
+        <button id="adminLogoutButton" class="btn btn-outline-danger ml-auto">Logout</button>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Summary Cards -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-header text-white">Total Contributions</div>
+                    <div class="card-body">
+                        <h5 class="card-title" id="totalIncomeAdmin">₹0.00</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-danger mb-3">
+                    <div class="card-header text-white">Total Expenses</div>
+                    <div class="card-body">
+                        <h5 class="card-title" id="totalExpensesAdmin">₹0.00</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-info mb-3">
+                    <div class="card-header text-white">Remaining Balance</div>
+                    <div class="card-body">
+                        <h5 class="card-title" id="remainingBalanceAdmin">₹0.00</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart -->
+        <div class="card mb-4">
+            <div class="card-header custom-card-header">Contributions vs Expenses Chart</div>
+            <div class="card-body">
+                <canvas id="summaryChartAdmin" height="250"></canvas>
+            </div>
+        </div>
+
+        <!-- Add Income Form -->
+        <div class="card mb-4">
+            <div class="card-header custom-card-header">Add Contribution Record</div>
+            <div class="card-body">
+                <form id="addIncomeForm">
+                    <input type="hidden" id="incomeEditId">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="devoteeName">Devotee Name</label>
+                            <input type="text" class="form-control" id="devoteeName" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="incomeAmount">Amount</label>
+                            <input type="number" step="0.01" class="form-control" id="incomeAmount" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="incomeDescription">Description</label>
+                        <textarea class="form-control" id="incomeDescription" rows="2" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="devoteeAddress">Devotee Address</label>
+                        <input type="text" class="form-control" id="devoteeAddress">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="contactNumber">Contact Number</label>
+                            <input type="tel" class="form-control" id="contactNumber">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="reference">Reference</label>
+                            <input type="text" class="form-control" id="reference">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add/Update Income</button>
+                    <button type="button" class="btn btn-secondary" id="cancelIncomeEdit" style="display:none;">Cancel Edit</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Income Table -->
+        <div class="card mb-4">
+            <div class="card-header custom-card-header">
+                Contribution Records
+                <button id="exportIncomePdf" class="btn btn-sm btn-info float-right">Export to PDF</button>
+                <button id="exportIncomeExcel" class="btn btn-sm btn-success float-right">Export to Excel</button>
+            </div>
+            <div class="card-body table-responsive">
+                <table class="table table-striped table-bordered" id="incomeTableAdmin">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Devotee Name</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Address</th>
+                            <th>Contact</th>
+                            <th>Reference</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="incomeTableAdminBody">
+                        <!-- Data will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <!-- Add Expense Form -->
+        <div class="card mb-4">
+            <div class="card-header custom-card-header">Add Expense Record</div>
+            <div class="card-body">
+                <form id="addExpenseForm">
+                    <input type="hidden" id="expenseEditId">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="expenseDate">Date</label>
+                            <input type="date" class="form-control" id="expenseDate" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="expenseDescription">Description</label>
+                            <input type="text" class="form-control" id="expenseDescription" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="totalExpense">Total Expense</label>
+                            <input type="number" step="0.01" class="form-control" id="totalExpense" required>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="advancePaid">Advance Paid</label>
+                            <input type="number" step="0.01" class="form-control" id="advancePaid" value="0">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="balanceDue">Balance Due</label>
+                            <input type="number" step="0.01" class="form-control" id="balanceDue" readonly>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add/Update Expense</button>
+                    <button type="button" class="btn btn-secondary" id="cancelExpenseEdit" style="display:none;">Cancel Edit</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Expense Table -->
+        <div class="card mb-4">
+            <div class="card-header custom-card-header">
+                Expense Records
+                <button id="exportExpensePdf" class="btn btn-sm btn-info float-right">Export to PDF</button>
+                <button id="exportExpenseExcel" class="btn btn-sm btn-success float-right">Export to Excel</button>
+            </div>
+            <div class="card-body table-responsive">
+                <table class="table table-striped table-bordered" id="expenseTableAdmin">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Total Expense</th>
+                            <th>Advance Paid</th>
+                            <th>Balance Due</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expenseTableAdminBody">
+                        <!-- Data will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- jsPDF and jsPDF-AutoTable -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+
+     <!-- SheetJS (js-xlsx) for Excel Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script> <!-- Or xlsx.mini.min.js for smaller size -->
+
+    <script src="js/firebase-config.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
