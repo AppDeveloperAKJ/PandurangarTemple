@@ -3,33 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pandurangar Temple Website</title>
+    <title>Sri Krishna Panduranga Vittala Bhaktha Samajam</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- Integrated Header with Background Image -->
+    <!-- Enhanced Header with Background Image -->
     <div class="header-container">
         <img src="panduwallp.png" alt="Temple Background" class="header-background-image">
+        <!-- Overlay for better text visibility -->
+        <div class="header-overlay"></div> 
 
         <div class="header-brand">
             <img src="logo.jpg" alt="Logo" class="header-logo">
-            <a class="header-title" href="#">Pandurangar Temple Management</a>
+            <a class="header-title" href="#">Sri Krishna Panduranga Vittala Bhaktha Samajam</a>
         </div>
         
         <div class="header-actions">
-            <button id="loginToggleButton" class="btn btn-outline-primary">Admin Login</button>
-            <button id="logoutButton" class="btn btn-outline-danger" style="display:none;">Logout</button>
+            <button id="loginToggleButton" class="btn btn-outline-light btn-sm">Admin Login</button>
+            <button id="logoutButton" class="btn btn-warning btn-sm" style="display:none;">Logout</button>
         </div>
     </div>
-        
-    </div>
-
-
-    <div class="container mt-4">
+    
+    <div class="container site-content mt-4 mb-5">
         <!-- Login Section (Initially Hidden/Shown) -->
         <div id="loginSection" class="card mb-4" style="display:none;">
-            <div class="card-header">Admin Login</div>
+            <div class="card-header custom-card-header-alt">Admin Login</div>
             <div class="card-body">
                 <form id="loginForm">
                     <div class="form-group">
@@ -46,163 +47,143 @@
             </div>
         </div>
 
-        <!-- Public View Section -->
-        <div id="publicViewSection">
-            
-
-            <div class="container mt-4">
- <div class="row">
-    
-    <!-- Left Half: Image -->
-     <div class="col-md-6 d-flex"> <!-- Removed align-items-center justify-content-center if content is text based and should align normally -->
-            <div class="card mb-4 w-100"> <!-- Added w-100 to make card take full width of column -->
-                <div class="card-header custom-card-header">About Lord Panduranga</div>
-                <div class="card-body about-content">
-                    <p>
-                        Lord Panduranga, also known as Vithoba or Vitthala, is a revered Hindu deity predominantly worshipped
-                        in the Indian states of Maharashtra, Karnataka, Goa, Telangana, and Andhra Pradesh. He is generally
-                        considered a manifestation of Lord Vishnu or his avatar, Krishna.
-                    </p>
-                    <p>
-                        Vithoba is often depicted as a dark young boy, standing arms-akimbo on a brick, sometimes accompanied
-                        by his main consort Rakhumai (Rukmini). The main center of Vithoba's worship is Pandharpur in Maharashtra,
-                        which is one of the most visited pilgrimage sites in India.
-                    </p>
-                    
-                    <!-- You can add more paragraphs, headings, or lists here -->
-                    <!--
-                    <h5>Key Aspects:</h5>
-                    <ul>
-                        <li>Manifestation of Vishnu/Krishna</li>
-                        <li>Consort: Rakhumai</li>
-                        <li>Main Temple: Pandharpur</li>
-                        <li>Central to Varkari and Haridasa traditions</li>
-                    </ul>
-                    -->
+        <!-- Main Content Area -->
+        <section id="aboutAndChartSection" class="mb-5">
+            <div class="row">
+                <!-- About Lord Panduranga -->
+                <div class="col-lg-7 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-header custom-card-header">About Lord Panduranga</div>
+                        <div class="card-body about-content">
+                            <p>
+                                Lord Vittala, also known as Panduranga or Vithoba, is a revered form of Lord Vishnu and Krishna, worshipped with deep devotion, especially in the states of Maharashtra, Karnataka, and Andhra Pradesh. He is the presiding deity of the holy town of Pandharpur, lovingly known as the spiritual capital of Maharashtra. Depicted standing with arms akimbo on a brick, Lord Vittala symbolizes unwavering patience, compassion, and the assurance of divine presence even in the most trying times.
+                            </p>
+                            <p class="text-tamil">
+                                விட்டலர் அல்லது பந்துரங்கர் என்றும் விஷ்ணுவின் மற்றும் கிருஷ்ணரின் ஒரு கருணைமிக்க வடிவமாகத் திகழும் பந்துரங்கர் பெருமாள், மகாராஷ்டிரா, கர்நாடகா மற்றும் ஆந்திரப் பகுதிகளில் தீவிரமாக வழிபடப்படுகிறார். அவர் மகாராஷ்டிராவின் ஆன்மிகத் தலைநகராகக் கருதப்படும் பண்டர்ப்பூர் நகரின் தலைவர் தெய்வமாக இருக்கிறார். கைகளை இடுப்பில் வைத்தவாறும், ஒரு செங்கல் மேல் நிற்பதுபோன்ற தோற்றத்திலும், பந்துரங்கர் அனைவருக்கும் பொறுமையையும் கருணையையும் வழங்கும் தெய்வ வடிவமாகக் கருதப்படுகிறார். 
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                 <!-- Contributions vs Expenses Chart -->
+                <div class="col-lg-5 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-header custom-card-header">Contributions & Expenses Overview</div>
+                        <div class="card-body d-flex flex-column justify-content-center">
+                            <div style="height: 220px;"> <!-- Fixed height for chart -->
+                                 <canvas id="summaryChartPublic"></canvas>
+                            </div>
+                            <div class="mt-3 text-center summary-text">
+                                <p>Total Contributions: <strong id="totalIncomePublic">₹0.00</strong></p>
+                                <p>Total Expenses: <strong id="totalExpensesPublic">₹0.00</strong></p>
+                                <p class="balance">Remaining Balance: <strong id="remainingBalancePublic">₹0.00</strong></p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Right Half: Chart Card -->
-        <div class="col-md-6 d-flex flex-column">
-            <div class="card mb-4 w-100 d-flex flex-column flex-grow-1">
-                <div class="card-header custom-card-header">Contributions vs Expenses Chart</div>
-                <div class="card-body">
-                    <canvas id="summaryChartPublic" height="200"></canvas>
+        <!-- Temple Events Section -->
+        <section id="eventsSection" class="mb-5">
+            <div class="section-title-container text-center mb-4">
+                <h2 class="section-title">Upcoming Events & Celebrations</h2>
+                <div class="title-decoration"></div>
+            </div>
+            <div id="eventsGridPublic" class="row">
+                <!-- Event cards will be dynamically inserted here by script.js -->
+                <!-- Placeholder Card (example structure, will be removed by script) -->
+                <div class="col-md-6 col-lg-4 mb-4 d-flex">
+                    <div class="card event-card h-100 shadow-sm">
+                        <img src="https://via.placeholder.com/350x200.png?text=Event+Image" class="card-img-top event-image" alt="Event Image Placeholder">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title event-name">Placeholder Event</h5>
+                            <p class="card-text event-date"><small class="text-muted"><i class="fas fa-calendar-alt mr-1"></i> Jan 1, 2025</small></p>
+                            <p class="card-text event-description mt-2">This is a placeholder for an upcoming temple event. Details will be updated soon.</p>
+                        </div>
+                    </div>
+                </div>
+                 <div class="col-md-6 col-lg-4 mb-4 d-flex">
+                    <div class="card event-card h-100 shadow-sm">
+                        <img src="https://via.placeholder.com/350x200.png?text=Festival+Glory" class="card-img-top event-image" alt="Event Image Placeholder">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title event-name">Another Celebration</h5>
+                            <p class="card-text event-date"><small class="text-muted"><i class="fas fa-calendar-alt mr-1"></i> Feb 15, 2025</small></p>
+                            <p class="card-text event-description mt-2">Join us for a special celebration filled with devotion and joy. More details to follow.</p>
+                        </div>
+                    </div>
+                </div>
+                 <div class="col-md-6 col-lg-4 mb-4 d-flex">
+                    <div class="card event-card h-100 shadow-sm">
+                        <img src="https://via.placeholder.com/350x200.png?text=Divine+Grace" class="card-img-top event-image" alt="Event Image Placeholder">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title event-name">Special Puja</h5>
+                            <p class="card-text event-date"><small class="text-muted"><i class="fas fa-calendar-alt mr-1"></i> Mar 10, 2025</small></p>
+                            <p class="card-text event-description mt-2">Experience divine blessings during our special puja ceremony. All are welcome.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-     
-    
-  </div>
- </div>
+        </section>
 
-<div class="row">
+        <section id="gallerySection" class="mb-5">
+            <div class="section-title-container text-center">
+                <h2 class="section-title">Moments of Devotion</h2>
+                <div class="title-decoration"></div>
+            </div>
+            <div id="templeGalleryGrid" class="row mt-4">
+                <!-- Gallery images will be dynamically inserted here by script.js -->
+                <div class="col-12">
+                    <p class="text-center text-muted">Loading gallery... Please wait.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contribution/Expense Tables (Initially commented out as per original, can be re-enabled if needed) -->
+        <!-- 
+        <div id="publicViewSectionDetails" style="display:none;">  
+            <div class="row">
                 <div class="col-md-4">
                     <div class="card text-white bg-light mb-3 card-elevation-lg">
                         <div class="card-header bg-success text-white">Total Contribution</div>
                         <div class="card-body">
-                            <h5 class="card-title text-muted" id="totalIncomePublic">₹0.00</h5>
+                            <h5 class="card-title text-muted" id="totalIncomePublic_detail">₹0.00</h5>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card text-white bg-light mb-3 card-elevation-lg">
-                        <div class="card-header bg-danger text-white">Total Expenses</div>
-                        <div class="card-body">
-                            <h5 class="card-title text-muted" id="totalExpensesPublic">₹0.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card text-white bg-light mb-3 card-elevation-lg">
-                        <div class="card-header bg-info text-white">Remaining Balance</div>
-                        <div class="card-body">
-                            <h5 class="card-title text-muted" id="remainingBalancePublic">₹0.00</h5>
-                        </div>
-                    </div>
-                </div>
+                ... more summary cards ...
             </div>
-
-            <!-- <div class="card mb-4">
-                <div class="card-header">Contributions vs Expenses Chart</div>
-                <div class="card-body">
-                    <canvas id="summaryChartPublic" height="250"></canvas>
-                </div>
-            </div> -->
-
             <div class="card mb-4">
-                <div class="card-header custom-card-header">
-                    Contribution Records
-                </div>
-                <div class="card-body table-responsive">
-                    <table class="table table-striped table-bordered">
-                        <thead>
-                            <tr>
-                                <th>S.No</th>
-                                <th>Devotee Name</th>
-                                <th>Description</th>
-                                <th>Amount</th>
-                                <th>Address</th>
-                                <th>Contact</th>
-                                <th>Reference</th>
-                            </tr>
-                        </thead>
-                        <tbody id="incomeTablePublicBody">
-                            <!-- Data will be populated by JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
+                <div class="card-header custom-card-header">Contribution Records</div>
+                ... table for incomeTablePublicBody ...
             </div>
-
             <div class="card mb-4">
-                <div class="card-header custom-card-header">
-                    Expense Records
+                <div class="card-header custom-card-header">Expense Records</div>
+                ... table for expenseTablePublicBody ...
+            </div>
+        </div>
+        -->
+
+    </div> <!-- End of .site-content .container -->
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <p>&copy; <span id="currentYear"></span> Pandurangar Temple Management. All Rights Reserved.</p>
+                    <p>Designed by Arvind</p>
                 </div>
-                <div class="card-body table-responsive">
-                    <table class="table table-striped table-bordered">
-                        <thead>
-                            <tr>
-                                <th>S.No</th>
-                                <th>Date</th>
-                                <th>Description</th>
-                                <th>Total Expense</th>
-                                <th>Advance Paid</th>
-                                <th>Balance Due</th>
-                            </tr>
-                        </thead>
-                        <tbody id="expenseTablePublicBody">
-                            <!-- Data will be populated by JavaScript -->
-                        </tbody>
-                    </table>
+                <div class="footer-right">
+                    <p>For Support, Contact: <a href="tel:+919790775577">+91 97907 75577</a></p>
                 </div>
             </div>
         </div>
-    </div>
+    </footer>
 
-    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <!-- Add Firebase products that you want to use -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/firebase-config.js"></script>
     <script src="js/script.js"></script>
-
-    <footer>
-    <div class="container">
-        <div class="footer-content">
-            <div class="footer-left">
-                <p>© <span id="currentYear"></span> Pandurangar Temple Management. All Rights Reserved.</p>
-                <p>Designed by Arvind</p>
-            </div>
-            <div class="footer-right">
-                <p>For Support, Contact: <a href="tel:+919790775577">+91 97907 75577</a></p>
-                 <!-- Or if you don't want it to be a clickable link: -->
-                 <!-- <p>For Support, Contact: +91 98765 45320</p> -->
-            </div>
-        </div>
-    </div>
-</footer>
 </body>
 </html>
