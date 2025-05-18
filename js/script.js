@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
         addIncomeForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const editId = document.getElementById('incomeEditId').value;
-            const incomeData = {
+            const incomeData = { // Cy field removed from here
                 sNo: editId && allIncomeData[editId] ? allIncomeData[editId].sNo : getNextSNo(allIncomeData),
                 category: document.getElementById('incomeCategory').value,
                 title: titleSelect.value,
@@ -367,6 +367,7 @@ document.addEventListener('DOMContentLoaded', () => {
             row.insertCell().textContent = record.locationCity || '-';
             row.insertCell().textContent = record.phoneNo || '-';
             row.insertCell().textContent = record.typeOfContribution;
+            // Cy column display removed
             row.insertCell().textContent = `₹${(record.amount || 0).toFixed(2)}`;
             row.insertCell().textContent = record.remarks || '-';
 
@@ -846,6 +847,7 @@ document.addEventListener('DOMContentLoaded', () => {
             function exportCombinedIncomeToPDF_SingleFile(incomeData, filename, title) {
                 try {
                     const pdfDoc = new jsPDF({ orientation: 'landscape' });
+                    // Cy removed from headers
                     const newHeaders = ['S.No', 'Mr/Mrs', 'Name', 'Referral', 'Location/City', 'Phone No', 'Type Of Contribution', 'Amount', 'Remarks'];
 
                     let grandTotalCombinedIncome = 0;
@@ -916,17 +918,20 @@ document.addEventListener('DOMContentLoaded', () => {
                                 record.locationCity || '-',
                                 record.phoneNo || '-',
                                 record.typeOfContribution || '-',
+                                // record.cy removed
                                 (record.amount || 0).toFixed(2),
                                 record.remarks || '-'
                             ];
                         });
                         grandTotalCombinedIncome += categoryTotalAmount;
-
+                        
+                        // Footer: Label spans up to Amount column, then Amount value, then empty for Remarks
                         const categoryFooterRow = [
                             { content: `Total for ${categoryInfo.name}:`, colSpan: newHeaders.length - 2, styles: { halign: 'right', fontStyle: 'bold', ...categoryTotalStyle } },
                             { content: `${categoryTotalAmount.toFixed(2)}`, styles: { fontStyle: 'bold', halign: 'right', ...categoryTotalStyle } },
                             { content: '', styles: { ...categoryTotalStyle } } 
                         ];
+
 
                         pdfDoc.autoTable({
                             head: [newHeaders],
@@ -937,10 +942,16 @@ document.addEventListener('DOMContentLoaded', () => {
                             bodyStyles: { fontSize: 7, cellPadding: 1.5 },
                             foot: [categoryFooterRow],
                             footStyles: { fontSize: 8, fontStyle: 'bold' },
-                            columnStyles: {
-                                0: { cellWidth: 10 }, 1: { cellWidth: 15 }, 2: { cellWidth: 35 },
-                                3: { cellWidth: 25 }, 4: { cellWidth: 30 }, 5: { cellWidth: 25 },
-                                6: { cellWidth: 40 }, 7: { cellWidth: 20, halign: 'right' }, 8: { cellWidth: 'auto' },
+                            columnStyles: { // S.No(0), Title(1), Name(2), Ref(3), Loc(4), Phone(5), Type(6), Amount(7), Remarks(8)
+                                0: { cellWidth: 10 },   // S.No
+                                1: { cellWidth: 15 },   // Mr/Mrs
+                                2: { cellWidth: 40 },   // Name (increased width)
+                                3: { cellWidth: 28 },   // Referral
+                                4: { cellWidth: 32 },   // Location/City
+                                5: { cellWidth: 25 },   // Phone No
+                                6: { cellWidth: 45 },   // Type Of Contribution (increased width)
+                                7: { cellWidth: 20, halign: 'right' }, // Amount
+                                8: { cellWidth: 'auto' }, // Remarks
                             },
                             margin: { left: pageMargin, right: pageMargin }
                         });
@@ -953,7 +964,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     pdfDoc.setFontSize(12);
                     pdfDoc.setFont(undefined, 'bold');
-                    pdfDoc.text(`Grand Total All Contributions: ${grandTotalCombinedIncome.toFixed(2)}`, pageMargin, currentY);
+                    pdfDoc.text(`Grand Total All Contributions: ₹${grandTotalCombinedIncome.toFixed(2)}`, pageMargin, currentY);
 
                     pdfDoc.save(filename);
                 } catch (error) {
@@ -1056,6 +1067,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 materials: { name: "Materials", headerBgColor: "FF2ECC71", headerFontColor: "FFFFFFFF" },
                 miscellaneous: { name: "Miscellaneous Expenditures", headerBgColor: "FFF39C12", headerFontColor: "FFFFFFFF" }
             };
+            // Cy removed from columns config
             const incomeColumnsConfig = [
                 { header: 'S.No', key: 'excelSNo' }, { header: 'Mr/Mrs', key: 'title' },
                 { header: 'Name', key: 'name' }, { header: 'Referral', key: 'referral' },
@@ -1110,6 +1122,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 categoryData.forEach(record => {
                     const row = incomeColumnsConfig.map(col => {
                         if (col.key === 'excelSNo') return runningSNo;
+                        // cy key removed
                         if (col.key === 'amount') {
                             const numVal = parseFloat(record[col.key]);
                             categoryTotal += (isNaN(numVal) ? 0 : numVal);
@@ -1124,8 +1137,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const totalRow = new Array(incomeColumnsConfig.length).fill(null);
                 const typeOfContributionColIdx = incomeColumnsConfig.findIndex(c => c.header === 'Type Of Contribution'); 
                 const amountColIdx = incomeColumnsConfig.findIndex(c => c.header === 'Amount');
-                totalRow[typeOfContributionColIdx] = `Total for ${categoryInfo.name}:`;
-                totalRow[amountColIdx] = categoryTotal;
+                if (typeOfContributionColIdx !== -1) totalRow[typeOfContributionColIdx] = `Total for ${categoryInfo.name}:`;
+                if (amountColIdx !== -1) totalRow[amountColIdx] = categoryTotal;
                 dataRowsForSheet.push(totalRow); excelRowIdx++;
             });
 
@@ -1134,19 +1147,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 const grandTotalRowArray = new Array(incomeColumnsConfig.length).fill(null);
                 const typeOfContributionColIdx = incomeColumnsConfig.findIndex(c => c.header === 'Type Of Contribution'); 
                 const amountColIdx = incomeColumnsConfig.findIndex(c => c.header === 'Amount');
-                grandTotalRowArray[typeOfContributionColIdx] = 'GRAND TOTAL CONTRIBUTIONS:';
-                grandTotalRowArray[amountColIdx] = grandTotalIncome;
+                if (typeOfContributionColIdx !== -1) grandTotalRowArray[typeOfContributionColIdx] = 'GRAND TOTAL CONTRIBUTIONS:';
+                if (amountColIdx !== -1) grandTotalRowArray[amountColIdx] = grandTotalIncome;
                 dataRowsForSheet.push(grandTotalRowArray); excelRowIdx++;
             }
 
             if (dataRowsForSheet.length > 5) { 
                 const ws = XLSX.utils.aoa_to_sheet(dataRowsForSheet);
                 ws['!merges'] = merges;
+                // Column widths adjusted (Cy removed)
                 ws['!cols'] = incomeColumnsConfig.map(col => {
-                    if (['name', 'typeOfContribution', 'remarks'].includes(col.key)) return { wch: 30 };
+                    if (['name', 'remarks'].includes(col.key)) return { wch: 30 };
+                    if (['typeOfContribution'].includes(col.key)) return { wch: 35 };
                     if (['referral', 'locationCity'].includes(col.key)) return { wch: 22 };
                     if (col.key === 'excelSNo') return {wch: 6};
-                    return { wch: 15 };
+                    return { wch: 15 }; // Mr/Mrs, PhoneNo, Amount
                 });
 
                 excelRowIdx = 0;
@@ -1181,6 +1196,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 ws[cellAddress].t = 'n'; ws[cellAddress].z = '₹#,##0.00'; 
                                 currentStyle.alignment = { horizontal: "right" };
                             }
+                            // No specific style for 'cy' as it's removed
                             ws[cellAddress].s = currentStyle;
                         }
                         excelRowIdx++;
@@ -1191,7 +1207,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     for(let c=0; c < incomeColumnsConfig.length; c++) {
                         cellAddress = XLSX.utils.encode_cell({r: excelRowIdx, c: c});
                         if(!ws[cellAddress]) ws[cellAddress] = {};
-                        if (c === typeOfContributionColIdx) ws[cellAddress].s = categoryTotalLabelStyle;
+                        if (c === typeOfContributionColIdx && ws[cellAddress].v && String(ws[cellAddress].v).startsWith("Total for")) ws[cellAddress].s = categoryTotalLabelStyle;
                         else if (c === amountColIdx && typeof ws[cellAddress].v === 'number') ws[cellAddress].s = categoryTotalValueStyle;
                         else ws[cellAddress].s = categoryTotalEmptyCellStyle; 
                     }
@@ -1205,7 +1221,7 @@ document.addEventListener('DOMContentLoaded', () => {
                      for(let c=0; c < incomeColumnsConfig.length; c++) {
                         cellAddress = XLSX.utils.encode_cell({r: excelRowIdx, c: c});
                         if(!ws[cellAddress]) ws[cellAddress] = {};
-                        if (c === typeOfContributionColIdx) ws[cellAddress].s = grandTotalLabelStyle;
+                        if (c === typeOfContributionColIdx && ws[cellAddress].v && String(ws[cellAddress].v).startsWith("GRAND TOTAL")) ws[cellAddress].s = grandTotalLabelStyle;
                         else if (c === amountColIdx && typeof ws[cellAddress].v === 'number') ws[cellAddress].s = grandTotalValueStyle;
                         else ws[cellAddress].s = grandTotalEmptyCellStyle; 
                     }
@@ -1483,8 +1499,9 @@ document.addEventListener('DOMContentLoaded', () => {
             "materials": "materials",
             "miscellaneous expenditures": "miscellaneous"
         };
+        // "cy" is still included here to help identify the header row for skipping, even if we don't use its value.
         const dataColumnKeywords = [ 
-            "name", "amount", "contribution", "referral", "location", "phone", "remarks", "mr/mrs", "s.no"
+            "name", "amount", "contribution", "referral", "location", "phone", "remarks", "mr/mrs", "s.no", "cy" 
         ];
 
         for (const rowCells of allRows) {
@@ -1517,21 +1534,38 @@ document.addEventListener('DOMContentLoaded', () => {
                     continue;
                 }
             }
+            
+            // Determine indices for Name and Amount, considering a potential Cy column in Excel
+            // If Excel has S.No | Title | Name | ... | Type | Cy | Amount | Remarks
+            //               0   |   1   |   2  | ... |   6  |  7 |   8    |    9
+            // If Excel has Title | Name | ... | Type | Cy | Amount | Remarks
+            //               0    |   1  | ... |   5  |  6 |   7    |    8
+            const sNoIsPresent = sNoLikelyPresentInRow(rowCells);
+            let nameIndex, amountIndexIfCyPresent, amountIndexIfCyNotPresent;
 
-            const sNoPresent = sNoLikelyPresentInRow(rowCells);
-            const nameIndex = sNoPresent ? 2 : (rowCells.length > 1 ? 1: 0) ; 
-            const amountIndex = sNoPresent ? 7 : (rowCells.length > 6 ? 6 : (rowCells.length > 2 ? 2 : -1)); 
-
+            if (sNoIsPresent) { // After S.No (index 0)
+                nameIndex = String(rowCells[1]).toLowerCase().match(/mr|mrs|ms|m\/s|shri|smt/) ? 2 : 1; // Title(1)? Name(2 or 1)
+                amountIndexIfCyPresent = 8;
+                amountIndexIfCyNotPresent = 7;
+            } else { // No S.No
+                nameIndex = String(rowCells[0]).toLowerCase().match(/mr|mrs|ms|m\/s|shri|smt/) ? 1 : 0; // Title(0)? Name(1 or 0)
+                amountIndexIfCyPresent = 7;
+                amountIndexIfCyNotPresent = 6;
+            }
+            
             const potentialName = String(rowCells[nameIndex] || "").trim();
-            const potentialAmountStr = amountIndex !== -1 ? String(rowCells[amountIndex] || "").trim() : "";
+            // Try reading amount assuming Cy column exists, then assuming it doesn't
+            let potentialAmountStr = (amountIndexIfCyPresent < rowCells.length && rowCells[amountIndexIfCyPresent] !== undefined) ? 
+                                     String(rowCells[amountIndexIfCyPresent]).trim() : "";
+            if (!potentialAmountStr && amountIndexIfCyNotPresent < rowCells.length && rowCells[amountIndexIfCyNotPresent] !== undefined) {
+                 potentialAmountStr = String(rowCells[amountIndexIfCyNotPresent]).trim();
+            }
 
 
             if ( (potentialName || (potentialAmountStr && parseFloat(potentialAmountStr.replace(/[^0-9.-]+/g, "")) !== 0)) && 
                  !firstCellTrimmedLower.includes("total for") && !firstCellTrimmedLower.includes("grand total") &&
-                 !String(rowCells[nameIndex] || "").toLowerCase().includes("total")) {
+                 !String(rowCells[nameIndex] || "").toLowerCase().includes("total for") && !String(rowCells[nameIndex] || "").toLowerCase().includes("grand total") ) {
                 categorizedDataRows.push({ category: currentCategory, cells: rowCells });
-            } else {
-                // console.log(`Excel parser (Income): Skipping row (likely total or not data) for '${currentCategory}':`, rowCells);
             }
         }
         console.log(`Categorized income Excel parsing complete. Found ${categorizedDataRows.length} potential data rows.`);
@@ -1624,39 +1658,59 @@ document.addEventListener('DOMContentLoaded', () => {
             const rawCells = entry.cells;
 
             const dataOffset = sNoLikelyPresentInRow(rawCells) ? 1 : 0;
-            const cleanRowCells = rawCells.slice(dataOffset).map(cell => (cell === undefined || cell === null) ? "" : String(cell).trim());
+            const cleanRowCells = rawCells.slice(dataOffset); 
 
-            if (cleanRowCells.every(cell => cell === "")) {
-                // console.log("Skipping fully empty categorized row (after offset). Original:", rawCells);
+            if (cleanRowCells.every(cell => String(cell).trim() === "")) {
                 continue;
             }
 
             try {
-                const title = cleanRowCells[0] || "";
-                const name = cleanRowCells[1] || "";
-                const referral = cleanRowCells[2] || "";
-                const locationCity = cleanRowCells[3] || "";
-                const phoneNo = cleanRowCells[4] || "";
-                const typeOfContribution = cleanRowCells[5] || "";
-                const amountStr = (cleanRowCells[6] || "0").replace(/[^0-9.-]+/g, ""); 
-                const remarks = cleanRowCells[7] || "";
+                // Map based on expected structure WITHOUT Cy in Firebase.
+                // Excel might have: S.No(opt) | Title | Name | Ref | Loc | Ph | Type | (Opt. Cy) | Amount | Remarks
+                // cleanRowCells indices:
+                // 0: Title, 1: Name, 2: Referral, 3: Location, 4: Phone, 5: Type
+                // If Cy IS in Excel: 6: Cy, 7: Amount, 8: Remarks
+                // If Cy NOT in Excel: 6: Amount, 7: Remarks
+                
+                const title = String(cleanRowCells[0] || "").trim();
+                const name = String(cleanRowCells[1] || "").trim();
+                const referral = String(cleanRowCells[2] || "").trim();
+                const locationCity = String(cleanRowCells[3] || "").trim();
+                const phoneNo = String(cleanRowCells[4] || "").trim();
+                const typeOfContribution = String(cleanRowCells[5] || "").trim();
 
-                if (!name.trim() && !typeOfContribution.trim() && (!amountStr || parseFloat(amountStr) === 0)) {
+                // Smartly get amount and remarks, skipping over a potential Cy column in Excel
+                let amountStr = "0";
+                let remarks = "";
+                const potentialCyCell = cleanRowCells.length > 6 ? String(cleanRowCells[6] || "").trim() : "";
+
+                // Check if the cell after 'Type of Contribution' looks like a currency symbol or the word "Cy"
+                if (potentialCyCell === "₹" || potentialCyCell.toLowerCase() === "cy") {
+                    amountStr = (cleanRowCells.length > 7 && cleanRowCells[7] !== undefined) ? String(cleanRowCells[7]).replace(/[^0-9.-]+/g, "") : "0";
+                    remarks = (cleanRowCells.length > 8 && cleanRowCells[8] !== undefined) ? String(cleanRowCells[8]).trim() : "";
+                } else { // Assume no Cy column in Excel, or it's not recognizable
+                    amountStr = (cleanRowCells.length > 6 && cleanRowCells[6] !== undefined) ? String(cleanRowCells[6]).replace(/[^0-9.-]+/g, "") : "0";
+                    remarks = (cleanRowCells.length > 7 && cleanRowCells[7] !== undefined) ? String(cleanRowCells[7]).trim() : "";
+                }
+
+
+                if (!name && !typeOfContribution && (!amountStr || parseFloat(amountStr) === 0)) {
                     console.warn("Skipping categorized row (core fields: Name, Type of Contribution empty and zero/invalid amount):", rawCells);
                     errorCount++; continue;
                 }
 
                 const amount = parseFloat(amountStr);
                 if (isNaN(amount)) { 
-                     console.warn("Skipping categorized row (invalid amount string):", rawCells, "Amount string:", cleanRowCells[6]);
+                     console.warn("Skipping categorized row (invalid amount string):", rawCells, "Amount string attempted from:", amountStr);
                      errorCount++; continue;
                 }
 
-                const recordData = {
+                const recordData = { // Cy field is NOT included here
                     sNo: nextSNoCounter,
                     category: category,
                     title: title, name: name, referral: referral, locationCity: locationCity,
-                    phoneNo: phoneNo, typeOfContribution: typeOfContribution, amount: amount,
+                    phoneNo: phoneNo, typeOfContribution: typeOfContribution, 
+                    amount: amount,
                     remarks: remarks, timestamp: firebase.database.ServerValue.TIMESTAMP
                 };
 
@@ -1682,7 +1736,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const cleanRowCells = rawCells.slice(dataOffset).map(cell => (cell === undefined || cell === null) ? "" : String(cell).trim());
 
             if (cleanRowCells.every(cell => cell === "")) {
-                // console.log("Skipping fully empty expense row (after offset). Original:", rawCells);
                 continue;
             }
 
@@ -1711,10 +1764,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             const parts = dateStr.split(separator);
                             if (parts.length === 3) {
                                 let day, month, year;
-                                if (parseInt(parts[1]) <=12 && parseInt(parts[0]) <=31) {
+                                if (parseInt(parts[1]) <=12 && parseInt(parts[0]) <=31) { // DD/MM/YYYY or DD-MM-YYYY
                                     day = parseInt(parts[0]); month = parseInt(parts[1]); year = parseInt(parts[2]);
                                 } 
-                                else if (parseInt(parts[0]) <=12 && parseInt(parts[1]) <=31) {
+                                else if (parseInt(parts[0]) <=12 && parseInt(parts[1]) <=31) { // MM/DD/YYYY or MM-DD-YYYY
                                     month = parseInt(parts[0]); day = parseInt(parts[1]); year = parseInt(parts[2]);
                                 }
                                 if (year < 100) year += 2000; 
